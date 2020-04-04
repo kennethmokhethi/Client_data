@@ -1,2 +1,5 @@
 model\Client.class
 controller\Main.class
+connection\cConnection.class
+dao\Client_DAO.class
+controller\Retrieve_Client_data.class
