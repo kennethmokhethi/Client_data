@@ -2,7 +2,7 @@ package model;
 
 public class Client{
     private String name;
-    private String surname;
+    private String lastname;
     private String address;
     private int acc_num;
 
@@ -23,12 +23,12 @@ public class Client{
         this.name = name;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setSurname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getAddress() {
