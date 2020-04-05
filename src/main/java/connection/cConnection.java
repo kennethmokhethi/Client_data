@@ -8,7 +8,9 @@ public class cConnection {
     public static Connection getConnection() throws Exception
     {
         Class.forName("org.h2.Driver");
-        Connection conn = DriverManager.getConnection("jdbc:h2:mem:test","client","client123")
-;        return conn;
+        Connection conn = DriverManager.getConnection("jdbc:h2:mem:clientdb");
+//        Connection conn = DriverManager.getConnection("jdbc:h2:mem:clientdb","client","client123%");
+
+        return conn;
     }
 }
