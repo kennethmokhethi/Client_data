@@ -11,7 +11,6 @@ import java.util.ArrayList;
 public class Client_DAO {
 
     private ArrayList<Client> clients = new ArrayList<>();
-    private Client obj_client;
     private Connection conn;
     private Statement create_stmt;
     private Statement retrieve_data_from_db;
@@ -30,7 +29,7 @@ public class Client_DAO {
 
         }catch(Exception ex)
         {
-            System.out.println("Error on createe table2 "+ex);
+            System.out.println("Error on create table2 "+ex);
         }finally {
             close(conn,create_stmt,null);
         }

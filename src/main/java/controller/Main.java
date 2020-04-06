@@ -50,9 +50,6 @@ public class Main extends HttpServlet {
          {
              ex.printStackTrace();
          }
-
-
-
          PrintWriter output = response.getWriter();
          output.println("<h2>" + obj_client.getName()+"</h2>");
 
