@@ -5,14 +5,16 @@ import java.sql.DriverManager;
 
 public class cConnection {
 
-    private static final String URL="jdbc:mysql://localhost:3306/StudentDB";
-    private static final String USER="root";
-    private  static final String PASSWORD="##1235%Asdfrty";
+    public static final String dbDrive="com.mysql.cj.jdbc.Driver";
+    public static final String URL="jdbc:mysql://localhost:3306/StudentDB";
+    public static final String USER="root";
+    public  static final String PASSWORD="##1235%Asdfrty";
 
 
-    public static Connection getConnection() throws Exception
+    public static Connection getConnection(String dbDrive,String URL,String USER,String PASSWORD) throws Exception
     {
-        Class.forName("com.mysql.cj.jdbc.Driver");
+
+        Class.forName(dbDrive);
         Connection conn = DriverManager.getConnection(URL,USER,PASSWORD);
         return conn;
     }

@@ -1,8 +1,8 @@
 package controller;
 
+import connection.cConnection;
 import dao.Client_DAO;
 import model.Client;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,10 +18,11 @@ public class Retrieve_Client_data extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-        client_dao = new Client_DAO();
+
         response.setContentType("text/html");
         try
         {
+            client_dao = new Client_DAO(cConnection.dbDrive,cConnection.URL,cConnection.USER,cConnection.PASSWORD);
             client_list = client_dao.getClients();
             display_clients(response);
 

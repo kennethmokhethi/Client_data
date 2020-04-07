@@ -1,5 +1,6 @@
 package controller;
 
+import connection.cConnection;
 import model.Client;
 import dao.Client_DAO;
 import javax.servlet.ServletException;
@@ -17,7 +18,7 @@ public class Main extends HttpServlet {
      @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
      {
-         client_dao =new Client_DAO();
+
 
 //         doPost(request,response);
          response.setContentType("text/html");
@@ -32,18 +33,12 @@ public class Main extends HttpServlet {
 
          try
          {
+             client_dao =new Client_DAO(cConnection.dbDrive,cConnection.URL,cConnection.USER,cConnection.PASSWORD);
              //create the table
              client_dao.create_client_table();
 
              //add client data
-           boolean validate_entry= client_dao.add_Client(obj_client);
-
-           if(validate_entry)
-           {
-               System.out.println("Data saved");
-           }else{
-               System.out.println("Something gone wrong!!");
-           }
+         client_dao.add_Client(obj_client);
 
 
          }catch(Exception ex)

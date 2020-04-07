@@ -11,38 +11,30 @@ import java.util.ArrayList;
 public class Client_DAO {
 
     private ArrayList<Client> clients = new ArrayList<>();
-    private Connection conn;
-    private Statement create_stmt;
-    private Statement retrieve_data_from_db;
-    private ResultSet output_from_db;
+    protected Connection conn;
+    private static final String CREATE_CLIENT_TABLE="CREATE TABLE IF NOT EXISTS CLIENT_TABLE(C_Name text,LastName text,Address text,Acc_num int primary key)";
+    private static final String INSERT_CLIENT="INSERT INTO CLIENT_TABLE(C_Name,LastName,Address,Acc_num) VALUES(?,?,?,?)";
+    private static final String SELECT_ALL_CLIENTS="SELECT * FROM CLIENT_TABLE";
 
-    public void create_client_table()
+
+    public Client_DAO(String dbDrive,String URL,String USER,String PASSWORD) throws Exception
     {
-        try
-        {
-            conn = cConnection.getConnection();
-            create_stmt = conn.createStatement();
-            String  create_client_table_sql ="CREATE TABLE IF NOT EXISTS CLIENT_TABLE(C_Name text,LastName text,Address text,Acc_num int primary key)";
-            create_stmt.executeUpdate(create_client_table_sql);
+        conn = cConnection.getConnection(dbDrive,URL,USER,PASSWORD);
+    }
 
-            System.out.println("Created the client table");
-
-        }catch(Exception ex)
-        {
-            System.out.println("Error on create table2 "+ex);
-        }finally {
-            close(conn,create_stmt,null);
-        }
+    public boolean create_client_table() throws Exception
+    {
+         Statement create_stmt = conn.createStatement();
+        return  create_stmt.execute(CREATE_CLIENT_TABLE);
     }
 
 
-    public boolean add_Client(Client obj_client)
+    public void add_Client(Client obj_client)
     {
         try
         {
-            conn = cConnection.getConnection();
-            String add_client_data ="INSERT INTO CLIENT_TABLE(C_Name,LastName,Address,Acc_num) VALUES(?,?,?,?)";
-            PreparedStatement client_ps = conn.prepareStatement(add_client_data);
+
+            PreparedStatement client_ps = conn.prepareStatement(INSERT_CLIENT);
             client_ps.setString(1,obj_client.getName());
             client_ps.setString(2,obj_client.getLastname());
             client_ps.setString(3,obj_client.getAddress());
@@ -51,21 +43,16 @@ public class Client_DAO {
         }catch(Exception ex)
         {
             ex.printStackTrace();
-        }finally {
-            //close connection
-            close(conn,null,null);
         }
 
-        return true;
     }
 
     public ArrayList<Client> getClients()
     {
         try
         {
-            conn = cConnection.getConnection();
-            retrieve_data_from_db=conn.createStatement();
-            output_from_db=retrieve_data_from_db.executeQuery("SELECT * FROM CLIENT_TABLE");
+             Statement retrieve_data_from_db=conn.createStatement();
+             ResultSet output_from_db=retrieve_data_from_db.executeQuery(SELECT_ALL_CLIENTS);
 
             while(output_from_db.next())
             {
@@ -76,46 +63,17 @@ public class Client_DAO {
                 clients.add(new Client(Name,Lastname,Address,Acc_num));
             }
 
-
         }catch(Exception ex)
         {
-
-        }finally {
-            //close connection
-            close(conn,retrieve_data_from_db,output_from_db);
-
+               ex.printStackTrace();
         }
-
 
         return clients;
-
     }
 
-
-
-    private void close(Connection conn,Statement stmt,ResultSet rs)
+    public void close() throws Exception
     {
-        try
-        {
-            if(conn != null)
-            {
-                conn.close();
-            }
-
-            if(stmt != null)
-            {
-                stmt.close();
-            }
-            if(rs != null)
-            {
-                rs.close();
-            }
-        }catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
+       conn.close();
     }
-
-
 
 }
