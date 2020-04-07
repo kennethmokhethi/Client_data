@@ -16,7 +16,6 @@ public class Client_Manager_DAO {
     private static final String INSERT_CLIENT="INSERT INTO CLIENT_TABLE(C_Name,LastName,Address,Acc_num) VALUES(?,?,?,?)";
     private static final String SELECT_ALL_CLIENTS="SELECT * FROM CLIENT_TABLE";
 
-
     public Client_Manager_DAO(String dbDrive, String URL, String USER, String PASSWORD) throws Exception
     {
         conn = cConnection.getConnection(dbDrive,URL,USER,PASSWORD);
@@ -28,12 +27,10 @@ public class Client_Manager_DAO {
         return  create_stmt.execute(CREATE_CLIENT_TABLE);
     }
 
-
     public void add_Client(ArrayList<Client> obj_client_list)
     {
         try
         {
-
             PreparedStatement client_ps = conn.prepareStatement(INSERT_CLIENT);
             for(int i=0;i < obj_client_list.size();i++)
             {
