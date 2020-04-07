@@ -31,7 +31,6 @@ public class Client_Manager_DAOTest {
 
     }
 
-
     @Test
     public void compare_data_in_db() throws Exception
     {
@@ -47,7 +46,6 @@ public class Client_Manager_DAOTest {
             Assert.assertEquals(clients.get(i).getAcc_num(), h2connection.getClients().get(i).getAcc_num());
 
         }
-
     }
 
     @Test
