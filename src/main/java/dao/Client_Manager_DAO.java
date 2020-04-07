@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class Client_DAO {
+public class Client_Manager_DAO {
 
     private ArrayList<Client> clients = new ArrayList<>();
     protected Connection conn;
@@ -17,7 +17,7 @@ public class Client_DAO {
     private static final String SELECT_ALL_CLIENTS="SELECT * FROM CLIENT_TABLE";
 
 
-    public Client_DAO(String dbDrive,String URL,String USER,String PASSWORD) throws Exception
+    public Client_Manager_DAO(String dbDrive, String URL, String USER, String PASSWORD) throws Exception
     {
         conn = cConnection.getConnection(dbDrive,URL,USER,PASSWORD);
     }
@@ -29,17 +29,22 @@ public class Client_DAO {
     }
 
 
-    public void add_Client(Client obj_client)
+    public void add_Client(ArrayList<Client> obj_client_list)
     {
         try
         {
 
             PreparedStatement client_ps = conn.prepareStatement(INSERT_CLIENT);
-            client_ps.setString(1,obj_client.getName());
-            client_ps.setString(2,obj_client.getLastname());
-            client_ps.setString(3,obj_client.getAddress());
-            client_ps.setInt(4,obj_client.getAcc_num());
-            client_ps.executeUpdate();
+            for(int i=0;i < obj_client_list.size();i++)
+            {
+                client_ps.setString(1,obj_client_list.get(i).getName());
+                client_ps.setString(2,obj_client_list.get(i).getLastname());
+                client_ps.setString(3,obj_client_list.get(i).getAddress());
+                client_ps.setInt(4,obj_client_list.get(i).getAcc_num());
+                client_ps.executeUpdate();
+            }
+
+
         }catch(Exception ex)
         {
             ex.printStackTrace();

@@ -1,7 +1,8 @@
 package controller;
 
+import connection.Connection_class;
 import connection.cConnection;
-import dao.Client_DAO;
+import dao.Client_Manager_DAO;
 import model.Client;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,19 +12,20 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+
 public class Retrieve_Client_data extends HttpServlet {
 
     public ArrayList<Client> client_list = new ArrayList<>();
-    private Client_DAO client_dao;
+   // private Client_Manager_DAO client_Manager_dao;
+    private Connection_class client_Manager_dao;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
-
         response.setContentType("text/html");
         try
         {
-            client_dao = new Client_DAO(cConnection.dbDrive,cConnection.URL,cConnection.USER,cConnection.PASSWORD);
-            client_list = client_dao.getClients();
+            client_Manager_dao = new Connection_class(cConnection.dbDrive,cConnection.URL,cConnection.USER,cConnection.PASSWORD);
+            client_list = client_Manager_dao.getClients();
             display_clients(response);
 
         }catch(Exception ex)

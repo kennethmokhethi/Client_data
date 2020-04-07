@@ -2,7 +2,7 @@ package controller;
 
 import connection.cConnection;
 import model.Client;
-import dao.Client_DAO;
+import dao.Client_Manager_DAO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,16 +10,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 @WebServlet("/Main")
 public class Main extends HttpServlet {
-  private Client_DAO client_dao;
+  private Client_Manager_DAO client_Manager_dao;
 
      @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
      {
 
-
+         ArrayList<Client> client_list = new ArrayList<>();
 //         doPost(request,response);
          response.setContentType("text/html");
 
@@ -30,15 +31,16 @@ public class Main extends HttpServlet {
 
 
          Client  obj_client = new Client(Name,LastName,Address,Integer.parseInt(strAcc_num));
+         client_list.add(new Client(Name,LastName,Address,Integer.parseInt(strAcc_num)));
 
          try
          {
-             client_dao =new Client_DAO(cConnection.dbDrive,cConnection.URL,cConnection.USER,cConnection.PASSWORD);
+             client_Manager_dao =new Client_Manager_DAO(cConnection.dbDrive,cConnection.URL,cConnection.USER,cConnection.PASSWORD);
              //create the table
-             client_dao.create_client_table();
+             client_Manager_dao.create_client_table();
 
              //add client data
-         client_dao.add_Client(obj_client);
+         client_Manager_dao.add_Client(client_list);
 
 
          }catch(Exception ex)
